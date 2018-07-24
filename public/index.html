@@ -1,0 +1,45 @@
+<html>
+
+<head>
+        <title>Socket.IO chat</title>
+        <script src="//cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
+        
+    
+       
+    </head>
+    <body>
+        <div>
+            <h2>Private Chat Application with Node.js, Socket.IO and AngularJS</h2>
+            <hr>
+           <div id="output"></div>
+           <h2>Got something to say?</h2>
+           <input type="text" placeholder="Type your message here" id="message">
+           <input type="button" value="Send" onclick="doPost()">
+           <h4>Join room</h4>
+           <div>Your Name: <input type="text" id="nameInput" placeholder="Enter Name"> </div>
+           <div>Room Code: <input type="text" id="codeInput" placeholder="Enter Room Code"> </div>
+           <input type="button" value="Submit" onclick="joinRoom()">
+           <hr>
+           <h4>Create room</h4>
+           <div>Your Name: <input type="text" id="createRoomInput" placeholder="Enter Name"> </div>
+           <input type="button" value="Submit" onclick="createRoom()"> 
+
+        </div>
+      
+        <script src="/chat.js"></script>
+        <!-- <script>
+               var socket = io();
+              function submitFunction(event){
+                //   event.preventDefault();
+                  console.log('hi');
+                   socket.emit('chat message',document.getElementById('m').value); 
+               }
+               socket.on('chat message',(msg)=>{
+                
+                setTimeout(() => document.getElementById('mytext').innerHTML=msg , 200);
+                debugger;
+                console.log('msg',document.getElementById('mytext').innerHTML);
+            })
+              </script> -->
+    </body>
+    </html>
