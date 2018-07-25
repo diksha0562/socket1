@@ -14,7 +14,7 @@ io.on('connection', (socket) => {
     var new_room = ("" + Math.random()).substring(2, 7);
     rooms.push(new_room);
     data.room = new_room;
-    socket.emit('updatechat', 'SERVER', 'Your room is ready, invite someone using this ID:' + new_room);
+    socket.emit('updatechat', 'SERVER', 'Your room is ready, invite someone using this ID:' + new_room, socket.room);
     socket.emit('roomcreated', data);
   })
 
@@ -30,26 +30,28 @@ io.on('connection', (socket) => {
       socket.join(room);
       console.log('socket.room',socket.room);
       console.log('socket.username',socket.username);
-      socket.emit('updatechat', 'SERVER', 'You are connected. Start chatting');
+      socket.emit('updatechat', 'SERVER', 'You are connected. Start chatting',socket.room);
       socket.broadcast.to(room).emit('updatechat', 'SERVER', username + ' has connected to this room');
     } else {
-      socket.emit('updatechat', 'SERVER', 'Please enter valid code.');
+      socket.emit('updatechat', 'SERVER', 'Please enter valid code.',socket.room);
     }
   })
 
   socket.on('sendchat',(msg)=> {
-    io.sockets.in(socket.room).emit('updatechat', socket.username, msg);
+    io.sockets.in(socket.room).emit('updatechat', socket.username, msg, socket.room);
   });
 
   socket.on('disconnect',() => {
     delete usernames[socket.username];
     io.sockets.emit('updateusers', usernames);
     if (socket.username !== undefined) {
-        socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+        socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected',socket.room);
         socket.leave(socket.room);
     }
 })
+
 });
+
 
 
 // the following two will emit to all the sockets connected to `/`
