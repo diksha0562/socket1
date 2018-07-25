@@ -10,7 +10,7 @@ socket.emit('createroom',data);
 
 function joinRoom (){
     let data={}
-    data.username=document.getElementById('nameInput').value;
+    data.userName=document.getElementById('nameInput').value;
     data.room=document.getElementById('codeInput').value;
     console.log('joinRoom',data)
     socket.emit('adduser', data);
@@ -27,11 +27,16 @@ user.userName=username;
 user.message=data;
 user.date=new Date().getTime();
 users.push(user);
+document.getElementById('output').innerHTML +="<p><strong>"+username+": </strong>"+data+"</p>" ;
 console.log('users',users);
 })
 
 socket.on('roomcreated',(data)=>{
     socket.emit('adduser', data);
+})
+
+socket.on('notconnected',()=>{
+    alert('not connected')
 })
 
 

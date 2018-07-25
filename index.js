@@ -1,23 +1,3 @@
-// var app = require('express')();
-// var http = require('http').Server(app);
-// var io = require('socket.io')(http);
-
-// app.get('/', (req, res)=>{
-//   res.sendFile(__dirname + '/index.html');
-// });
-
-// io.on('connection', (socket)=>{
-//   console.log('a user connected');
-//   socket.on('chat message',(msg)=>{console.log('message ',msg)
-//   io.emit('chat message',msg);
-// })
-
-// });
-
-// http.listen(5000,()=>{
-//   console.log('listening on *:5000');
-// });
-
 var express = require('express');
 var app = express();
 var server = app.listen(5000, () => { console.log('port 5000') });
@@ -35,7 +15,7 @@ io.on('connection', (socket) => {
     rooms.push(new_room);
     data.room = new_room;
     socket.emit('updatechat', 'SERVER', 'Your room is ready, invite someone using this ID:' + new_room);
-    // socket.emit('roomcreated', data);
+    socket.emit('roomcreated', data);
   })
 
   socket.on('adduser', (data) => {
@@ -49,6 +29,7 @@ io.on('connection', (socket) => {
       usernames[username] = username;
       socket.join(room);
       console.log('socket.room',socket.room);
+      console.log('socket.username',socket.username);
       socket.emit('updatechat', 'SERVER', 'You are connected. Start chatting');
       socket.broadcast.to(room).emit('updatechat', 'SERVER', username + ' has connected to this room');
     } else {
@@ -57,7 +38,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('sendchat',(msg)=> {
-    io.sockets.emit('updatechat', socket.username, msg);
+    io.sockets.in(socket.room).emit('updatechat', socket.username, msg);
   });
 
   socket.on('disconnect',() => {
@@ -69,3 +50,8 @@ io.on('connection', (socket) => {
     }
 })
 });
+
+
+// the following two will emit to all the sockets connected to `/`
+// io.sockets.emit('hi', 'everyone');
+// io.emit('hi', 'everyone'); // short form
