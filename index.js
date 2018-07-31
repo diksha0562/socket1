@@ -14,7 +14,7 @@ io.on('connection', (socket) => {
     var new_room = ("" + Math.random()).substring(2, 7);
     rooms.push(new_room);
     data.room = new_room;
-    socket.emit('updatechat', 'SERVER', 'Your room is ready, invite someone using this ID:' + new_room, socket.room);
+    socket.emit('updatechat', 'SERVER', 'Your room is ready, invite someone using this ID:' + new_room, new_room);
     socket.emit('roomcreated', data);
   })
 
@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
     delete usernames[socket.username];
     io.sockets.emit('updateusers', usernames);
     if (socket.username !== undefined) {
-        socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected',socket.room);
+      io.sockets.in(socket.room).emit('updatechat', 'SERVER', socket.username + ' has disconnected',socket.room);
         socket.leave(socket.room);
     }
 })

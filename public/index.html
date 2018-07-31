@@ -8,16 +8,16 @@
        
     </head>
     <body>
-        <div>
-            <h2>Private Chat Application</h2>
+        <div id="container">
+            <h2>Chat Application</h2>
             <hr>
             <ul id="room_list"></ul>
-           <div id="output"></div>
-           <hr>
-           <div id="output_room"></div>
+           <!-- <div id="output"></div> -->
+         
+           
            <h2>Got something to say?</h2>
-           <input type="text" placeholder="Type your message here" id="message">
-           <input type="button" value="Send" onclick="doPost()">
+           <!-- <input type="text" placeholder="Type your message here" id="message">
+           <input type="button" value="Send" onclick="doPost()"> -->
            <h4>Join room</h4>
            <div>Your Name: <input type="text" id="nameInput" placeholder="Enter Name"> </div>
            <div>Room Code: <input type="text" id="codeInput" placeholder="Enter Room Code"> </div>
@@ -28,7 +28,13 @@
            <input type="button" value="Submit" onclick="createRoom()"> 
 
         </div>
-      
+        <div id="listing" style="display:none">
+            <input type="button" value="back" onclick="back_click()">
+            <input type="text" placeholder="Type your message here" id="message">
+           <input type="button" value="Send" onclick="doPost()">
+           <div id="output"></div>
+        <!-- <div id="output_room"></div> -->
+        </div>
         <script src="/chat.js"></script>
     </body>
     </html>
